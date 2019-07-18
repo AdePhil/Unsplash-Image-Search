@@ -12,6 +12,7 @@
             type="text"
             class="header__input"
             placeholder="Search for photo"
+            @keyup.enter="search"
           />
         </div>
       </div>
@@ -48,7 +49,12 @@ export default {
     };
   },
   methods: {
+    search(e) {
+      const value = e.target.value || "";
+      this.searchPhoto(value);
+    },
     searchPhoto(query) {
+      console.log(query);
       axios
         .get(
           `https://api.unsplash.com/search/photos?page=1&per_page=8&query=${query}&client_id=${APP_ID}`
