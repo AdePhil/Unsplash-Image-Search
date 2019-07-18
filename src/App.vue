@@ -66,6 +66,8 @@ export default {
 </script>
 
 <style lang="scss">
+// variables
+$blue: #253858;
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -101,6 +103,7 @@ body {
     border-radius: 5px;
     font-size: 20px;
     outline: none;
+    color: #253858;
     &::placeholder {
       color: inherit;
     }
