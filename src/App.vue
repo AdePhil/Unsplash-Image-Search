@@ -12,34 +12,72 @@
             type="text"
             class="header__input"
             placeholder="Search for photo"
-            @keyup.enter="search"
+            v-model="query"
+            @keyup.enter="searchPhoto"
           />
         </div>
+        <transition name="fade">
+          <h3 v-show="!loading && showHelperText" class="header__helper-text">
+            Search Results for
+            <span class="keyword"
+              >&ldquo;{{ previouslySearchedQuery }}&rdquo;</span
+            >
+          </h3>
+        </transition>
       </div>
     </div>
     <div class="gallery">
       <div class="gallery__container">
-        <div class="gallery__img" v-for="photo in photos" :key="photo.id">
+        <div
+          class="gallery__img"
+          v-for="photo in photos"
+          :key="photo.id"
+          @click="showImageModal(photo)"
+        >
           <img :src="photo.urls.regular" :alt="photo.description" />
           <div class="gallery__img-text">
-            <h3>{{ photo.user.name }}</h3>
-            <p>{{ photo.user.location }}</p>
+            <h3 :class="!Object.keys(photo.user).length ? '' : 'active'">
+              {{ photo.user.name }}
+            </h3>
+            <p :class="!Object.keys(photo.user).length ? '' : 'active'">
+              {{ photo.user.location }}
+            </p>
           </div>
         </div>
       </div>
     </div>
+    <Modal v-if="showModal && modalPhoto" @close="showModal = false">
+      <img
+        slot="body"
+        :src="modalPhoto.urls.regular"
+        :alt="modalPhoto.description"
+      />
+      <div slot="footer" class="modal__footer-text">
+        <h3>{{ modalPhoto.user.name }}</h3>
+        <p>{{ modalPhoto.user.location }}</p>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import { APP_ID } from "./unsplash";
+import Modal from "./components/Modal";
 import axios from "axios";
 
 export default {
   name: "app",
-  components: {},
+  components: {
+    Modal
+  },
   data() {
     return {
+      loading: false,
+      modalPhoto: null,
+      query: "African",
+      showModal: false,
+      previouslySearchedQuery: "African",
+      showHelperText: false,
       photos: Array.from({ length: 8 }).map((_, i) => ({
         id: i,
         description: "",
@@ -48,25 +86,46 @@ export default {
       }))
     };
   },
+  watch: {
+    query(newValue) {
+      //the input cleared resets the list of photos and hides helper text
+      if (!newValue) {
+        this.photos = Array.from({ length: 8 }).map((_, i) => ({
+          id: i,
+          description: "",
+          urls: { regular: "" },
+          user: {}
+        }));
+        this.showHelperText = false;
+      }
+    }
+  },
   methods: {
-    search(e) {
-      const value = e.target.value || "";
-      this.searchPhoto(value);
+    showImageModal(photo) {
+      this.modalPhoto = photo;
+      this.showModal = true;
     },
-    searchPhoto(query) {
-      console.log(query);
+    searchPhoto() {
+      this.showHelperText = true;
+      this.loading = true;
+      this.previouslySearchedQuery = this.query;
       axios
         .get(
-          `https://api.unsplash.com/search/photos?page=1&per_page=8&query=${query}&client_id=${APP_ID}`
+          `https://api.unsplash.com/search/photos?page=1&per_page=8&query=${this.query}&client_id=${APP_ID}`
         )
         .then(response => {
+          this.loading = false;
           console.log(response.data.results);
           this.photos = response.data.results;
+        })
+        .catch(error => {
+          this.loading = false;
+          console.log(error);
         });
     }
   },
   mounted() {
-    this.searchPhoto("fun");
+    this.searchPhoto();
   }
 };
 </script>
@@ -74,16 +133,25 @@ export default {
 <style lang="scss">
 // variables
 $blue: #253858;
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+$light-blue: #6d7b91;
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 
 body {
   margin: 0 !important;
   padding: 0 !important;
+  font-family: "Roboto", sans-serif;
+}
+
+.keyword {
+  color: $light-blue;
 }
 
 .container {
@@ -99,6 +167,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &__helper-text {
+    color: $blue;
+  }
   &__input-container {
     position: relative;
   }
@@ -142,6 +214,8 @@ body {
     background-color: #f5f5f5;
     grid-row: span 3;
     position: relative;
+    transition: 300ms ease;
+
     &-text {
       position: absolute;
       color: #fff;
@@ -152,9 +226,20 @@ body {
       h3 {
         margin-bottom: 0;
         font-size: 13px;
+        min-width: 50px;
+        min-height: 10px;
+        background-color: #e6e6e6;
+        display: inline-block;
       }
       p {
         margin-top: 8px;
+        min-width: 100px;
+        background-color: #e6e6e6;
+        min-height: 10px;
+      }
+      p.active,
+      h3.active {
+        background-color: transparent;
       }
     }
     img {
@@ -165,8 +250,14 @@ body {
       border-radius: 4px;
     }
 
-    &::before:not(:empty) {
-      background-color: rgba(0, 0, 0, 0.3);
+    &:hover {
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+
+    &:hover:before {
+      background-color: rgba(0, 0, 0, 0.2);
+      cursor: pointer;
     }
     &::before {
       display: block;
@@ -176,11 +267,28 @@ body {
       position: absolute;
       z-index: 3;
       border-radius: 4px;
-      background-color: rgba(0, 0, 0, 0.2);
+      // transform: scale(1.1);
     }
   }
   &__img:nth-child(even) {
     grid-row: span 4;
+  }
+}
+
+.modal {
+  &__footer-text {
+    background-color: #fff;
+    padding: 18px 30px;
+    text-transform: capitalize;
+    h3 {
+      margin: 0;
+      color: $blue;
+    }
+    p {
+      margin-top: 5px;
+      color: $light-blue;
+      font-size: 13px;
+    }
   }
 }
 </style>
