@@ -143,7 +143,9 @@ $light-blue: #6d7b91;
 .fade-leave-to {
   opacity: 0;
 }
-
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0 !important;
   padding: 0 !important;
@@ -226,16 +228,16 @@ body {
       h3 {
         margin-bottom: 0;
         font-size: 13px;
-        min-width: 50px;
+        min-width: 100px;
         min-height: 10px;
         background-color: #e6e6e6;
-        display: inline-block;
       }
       p {
         margin-top: 8px;
-        min-width: 100px;
+        min-width: 50px;
         background-color: #e6e6e6;
         min-height: 10px;
+        display: inline-block;
       }
       p.active,
       h3.active {
@@ -267,7 +269,6 @@ body {
       position: absolute;
       z-index: 3;
       border-radius: 4px;
-      // transform: scale(1.1);
     }
   }
   &__img:nth-child(even) {

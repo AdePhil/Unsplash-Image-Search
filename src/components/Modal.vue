@@ -46,7 +46,6 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: table;
     transition: opacity 0.3s ease;
   }
 
@@ -59,9 +58,9 @@
   }
 
   &__container {
-    width: 800px;
+    max-width: 800px;
+    width: 90%;
     margin: 50px auto;
-    height: 500px;
     background-color: #fff;
     border-radius: 2px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -71,14 +70,22 @@
   }
 
   &__body {
-    height: 80%;
     background-color: #f5f5f5;
     img {
       width: 100%;
-      height: 100%;
+      height: 400px;
       display: block;
       object-fit: cover;
-      object-position: 0 -100px;
+      object-position: 0 -80px;
+    }
+  }
+}
+@media (max-width: 600px) {
+  .modal {
+    &__body {
+      img {
+        height: 250px;
+      }
     }
   }
 }
