@@ -61,7 +61,6 @@
 </template>
 
 <script>
-import { APP_ID } from "./unsplash";
 import Modal from "./components/Modal";
 import axios from "axios";
 
@@ -111,13 +110,11 @@ export default {
       this.loading = true;
       this.previouslySearchedQuery = this.query;
       axios
-        .get(
-          `https://api.unsplash.com/search/photos?page=1&per_page=8&query=${this.query}&client_id=${APP_ID}`
-        )
+        .post(`/.netlify/functions/images`, { query: this.query })
         .then(response => {
           this.loading = false;
-          console.log(response.data.results);
-          this.photos = response.data.results;
+          console.log(response.data);
+          this.photos = response.data;
         })
         .catch(error => {
           this.loading = false;
