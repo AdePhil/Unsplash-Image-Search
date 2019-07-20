@@ -34,7 +34,11 @@
           :key="photo.id"
           @click="showImageModal(photo)"
         >
-          <img :src="photo.urls.regular" :alt="photo.alt_description" />
+          <img
+            :src="photo.urls.regular"
+            :alt="photo.alt_description"
+            onerror="this.style.display='none'"
+          />
           <div class="gallery__img-text">
             <h3 :class="!Object.keys(photo.user).length ? '' : 'active'">
               {{ photo.user.name }}
