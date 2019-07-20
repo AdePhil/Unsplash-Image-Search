@@ -34,7 +34,7 @@
           :key="photo.id"
           @click="showImageModal(photo)"
         >
-          <img :src="photo.urls.regular" :alt="photo.description" />
+          <img :src="photo.urls.regular" :alt="photo.alt_description" />
           <div class="gallery__img-text">
             <h3 :class="!Object.keys(photo.user).length ? '' : 'active'">
               {{ photo.user.name }}
@@ -80,6 +80,7 @@ export default {
       showHelperText: false,
       photos: Array.from({ length: 8 }).map((_, i) => ({
         id: i,
+        alt_description: "",
         description: "",
         urls: { regular: "" },
         user: {}
@@ -178,7 +179,7 @@ body {
   }
   &__input {
     width: 100%;
-    padding: 20px 20px 20px 35px;
+    padding: 20px 20px 20px 50px;
     border: none;
     border-radius: 5px;
     font-size: 20px;
@@ -196,9 +197,11 @@ body {
   }
 }
 
+//Gallery
 .gallery {
   max-width: 600px;
   margin: -30px auto;
+  padding: 0 1em;
   &__container {
     margin-top: -30px;
     position: relative;
@@ -216,7 +219,9 @@ body {
     background-color: #f5f5f5;
     grid-row: span 3;
     position: relative;
-    transition: 300ms ease;
+    transition: transform 300ms ease;
+    border-radius: 4px;
+    overflow: hidden;
 
     &-text {
       position: absolute;
@@ -233,7 +238,7 @@ body {
         background-color: #e6e6e6;
       }
       p {
-        margin-top: 8px;
+        margin-top: 2px;
         min-width: 50px;
         background-color: #e6e6e6;
         min-height: 10px;
@@ -256,11 +261,6 @@ body {
       transform: scale(1.1);
       cursor: pointer;
     }
-
-    &:hover:before {
-      background-color: rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-    }
     &::before {
       display: block;
       width: 100%;
@@ -268,13 +268,33 @@ body {
       content: "";
       position: absolute;
       z-index: 3;
-      border-radius: 4px;
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.2);
     }
   }
   &__img:nth-child(even) {
     grid-row: span 4;
   }
 }
+@media (max-width: 560px) {
+  .gallery {
+    &__container {
+      grid-template-columns: repeat(2, minmax(0, 300px));
+    }
+    &__img {
+      grid-row: span 4;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .gallery {
+    &__container {
+      grid-template-columns: repeat(1, minmax(0, 300px));
+    }
+  }
+}
+//Gallery end
 
 .modal {
   &__footer-text {
