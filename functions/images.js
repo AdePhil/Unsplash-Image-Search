@@ -12,6 +12,7 @@ exports.handler = function(event, context, callback) {
     )
     .then(response => {
       const body = response.data.results;
+      console.log("body", body);
       const formattedBody = JSON.stringify(body) || [];
       callback(null, {
         statusCode: 200,
