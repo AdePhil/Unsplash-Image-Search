@@ -56,7 +56,10 @@
         </div>
       </div>
     </div>
-    <Modal v-if="showModal && modalPhoto" @close="showModal = false">
+    <Modal
+      v-if="showModal && !!(modalPhoto && modalPhoto.urls.regular)"
+      @close="showModal = false"
+    >
       <img
         slot="body"
         :src="modalPhoto.urls.regular"
@@ -218,6 +221,7 @@ $light-blue: #6d7b91;
       font-size: 9px;
       z-index: 4;
       padding: 0 10px;
+      opacity: 0.95;
       h3 {
         margin-bottom: 0;
         font-size: 12px;

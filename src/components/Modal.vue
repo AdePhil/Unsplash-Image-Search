@@ -1,6 +1,6 @@
 <template>
   <transition name="modal">
-    <div class="modal__mask" @click="$emit('close')">
+    <div class="modal__mask">
       <div class="modal__wrapper">
         <div class="modal__container">
           <button class="modal__close" @click="$emit('close')">&times;</button>
@@ -23,6 +23,23 @@
     </div>
   </transition>
 </template>
+<script>
+export default {
+  created() {
+    document.addEventListener("click", this.checkClick);
+  },
+  methods: {
+    checkClick(e) {
+      if (e.target.matches(".modal__wrapper")) {
+        this.$emit("close");
+      }
+    }
+  },
+  destroyed() {
+    document.removeEventListener("click", this.checkClick);
+  }
+};
+</script>
 
 <style lang="scss">
 .modal {
