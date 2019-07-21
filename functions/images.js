@@ -21,6 +21,6 @@ exports.handler = function(event, context, callback) {
     })
     .catch(error => {
       console.log(error);
-      callback(new Error("Could not fetch data"));
+      callback(error);
     });
 };
