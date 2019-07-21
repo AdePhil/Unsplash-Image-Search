@@ -2,9 +2,8 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 exports.handler = function(event, context, callback) {
-  console.log(event.body);
-  const { query } = JSON.parse(event.body);
-  console.log(event);
+  // const { query } = JSON.parse(event.body);
+  const query = "dogs";
   const { APP_ID } = process.env;
 
   axios
