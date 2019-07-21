@@ -2,7 +2,9 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
 exports.handler = function(event, context, callback) {
+  console.log(event.body);
   const { query } = JSON.parse(event.body);
+  console.log(event);
   const { APP_ID } = process.env;
 
   axios
@@ -16,7 +18,8 @@ exports.handler = function(event, context, callback) {
         body: JSON.stringify(body)
       });
     })
-    .catch(() => {
+    .catch(error => {
+      console.log(error);
       callback(new Error("Could not fetch data"));
     });
 };

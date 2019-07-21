@@ -1,3 +1,0 @@
-const APP_ID =
-  "8575da1db97ad6d30552c197083d8f10c9944313f348085dad91c068d43dac37";
-export { APP_ID };
