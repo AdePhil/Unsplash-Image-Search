@@ -1,6 +1,6 @@
 import axios from "axios";
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 exports.handler = function(event, context, callback) {
   // const { query } = JSON.parse(event.body);
   const query = "dogs";
@@ -13,14 +13,14 @@ exports.handler = function(event, context, callback) {
     .then(response => {
       const body = response.data.results;
       console.log("body", body);
-      const formattedBody = JSON.stringify(body) || [];
+      const formattedBody = JSON.stringify(body) || "[]";
       callback(null, {
         statusCode: 200,
         body: formattedBody
       });
     })
     .catch(error => {
-      console.log(error);
+      console.log(error.response.data);
       callback(error);
     });
 };
