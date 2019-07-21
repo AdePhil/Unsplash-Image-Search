@@ -3,6 +3,7 @@
     <div class="modal__mask" @click="$emit('close')">
       <div class="modal__wrapper">
         <div class="modal__container">
+          <button class="modal__close" @click="$emit('close')">&times;</button>
           <div class="modal__body">
             <slot name="body">
               default body
@@ -18,7 +19,6 @@
             </slot>
           </div>
         </div>
-        <button class="modal__close" @click="$emit('close')">&times;</button>
       </div>
     </div>
   </transition>
@@ -28,8 +28,8 @@
 .modal {
   &__close {
     position: fixed;
-    top: 30px;
-    right: 200px;
+    top: 20px;
+    right: 15%;
     background: transparent;
     color: #f5f5f5;
     font-size: 25px;
@@ -58,6 +58,7 @@
   }
 
   &__container {
+    position: relative;
     max-width: 800px;
     width: 90%;
     margin: 50px auto;

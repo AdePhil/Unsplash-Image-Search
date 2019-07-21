@@ -1,0 +1,27 @@
+// variables
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: "Roboto", sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  width: 100%;
+  padding: 0 1em;
+  margin: 0 auto;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

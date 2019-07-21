@@ -14,11 +14,13 @@
             placeholder="Search for photo"
             v-model="query"
             @keyup.enter="searchPhoto"
+            :disabled="loading"
           />
         </div>
         <transition name="fade">
-          <h3 v-show="!loading && showHelperText" class="header__helper-text">
-            Search Results for
+          <h3 v-show="showHelperText" class="header__helper-text">
+            <span v-if="loading">Searching for </span>
+            <span v-else>Search Results for </span>
             <span class="keyword"
               >&ldquo;{{ previouslySearchedQuery }}&rdquo;</span
             >
@@ -28,8 +30,12 @@
     </div>
     <div class="gallery">
       <div class="gallery__container">
+        <div class="gallery__default-text" v-if="!photos.length">
+          No Pictures Available.
+        </div>
         <div
-          class="gallery__img"
+          class="gallery__img "
+          :class="!Object.keys(photo.user).length ? '' : 'active'"
           v-for="photo in photos"
           :key="photo.id"
           @click="showImageModal(photo)"
@@ -137,32 +143,8 @@ export default {
 $blue: #253858;
 $light-blue: #6d7b91;
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0 !important;
-  padding: 0 !important;
-  font-family: "Roboto", sans-serif;
-}
-
 .keyword {
   color: $light-blue;
-}
-
-.container {
-  max-width: 800px;
-  width: 100%;
-  padding: 0 1em;
-  margin: 0 auto;
 }
 
 .header {
@@ -203,6 +185,11 @@ body {
   max-width: 600px;
   margin: -30px auto;
   padding: 0 1em;
+
+  &__default-text {
+    text-align: center;
+    grid-column: 1/-1;
+  }
   &__container {
     margin-top: -30px;
     position: relative;
@@ -228,15 +215,16 @@ body {
       position: absolute;
       color: #fff;
       bottom: 0;
-      font-size: 11px;
+      font-size: 9px;
       z-index: 4;
       padding: 0 10px;
       h3 {
         margin-bottom: 0;
-        font-size: 13px;
+        font-size: 12px;
         min-width: 100px;
         min-height: 10px;
         background-color: #e6e6e6;
+        color: #e6e6e6;
       }
       p {
         margin-top: 2px;
@@ -244,6 +232,7 @@ body {
         background-color: #e6e6e6;
         min-height: 10px;
         display: inline-block;
+        color: #e6e6e6;
       }
       p.active,
       h3.active {
@@ -270,7 +259,16 @@ body {
       position: absolute;
       z-index: 3;
       cursor: pointer;
-      background-color: rgba(0, 0, 0, 0.2);
+    }
+    &.active::before {
+      background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(transparent),
+        color-stop(65%, transparent),
+        to(black)
+      );
     }
   }
   &__img:nth-child(even) {
