@@ -5,7 +5,7 @@ exports.handler = function(event, context, callback) {
   // const { query } = JSON.parse(event.body);
   const query = "dogs";
   const { APP_ID } = process.env;
-  console.log("APP_ID", APP_ID)
+  console.log("APP_ID", APP_ID);
 
   axios
     .get(
@@ -21,6 +21,7 @@ exports.handler = function(event, context, callback) {
       });
     })
     .catch(error => {
+      console.log(error);
       console.log(error.response.data);
       callback(error);
     });
