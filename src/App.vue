@@ -131,7 +131,6 @@ export default {
         .post(`/.netlify/functions/images`, { query: this.query })
         .then(response => {
           this.loading = false;
-          console.log(response.data);
           this.photos = response.data;
         })
         .catch(error => {
