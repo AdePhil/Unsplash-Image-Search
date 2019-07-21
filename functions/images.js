@@ -1,9 +1,8 @@
 import axios from "axios";
-// import dotenv from "dotenv";
-// dotenv.config();
+import dotenv from "dotenv";
+dotenv.config();
 exports.handler = function(event, context, callback) {
-  // const { query } = JSON.parse(event.body);
-  const query = "dogs";
+  const { query } = JSON.parse(event.body);
   const { APP_ID } = process.env;
   console.log("APP_ID", APP_ID);
 
@@ -13,8 +12,7 @@ exports.handler = function(event, context, callback) {
     )
     .then(response => {
       const body = response.data.results;
-      console.log("response", body);
-      const formattedBody = JSON.stringify(body) || "[]";
+      const formattedBody = JSON.stringify(body);
       callback(null, {
         statusCode: 200,
         body: formattedBody
@@ -22,7 +20,6 @@ exports.handler = function(event, context, callback) {
     })
     .catch(error => {
       console.log(error);
-      console.log(error.response.data);
       callback(error);
     });
 };
