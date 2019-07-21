@@ -104,7 +104,7 @@ export default {
   },
   watch: {
     query(newValue) {
-      //the input cleared resets the list of photos and hides helper text
+      //when the input is cleared it resets the list of photos and hides helper text
       if (!newValue) {
         this.photos = Array.from({ length: 8 }).map((_, i) => ({
           id: i,
@@ -188,7 +188,7 @@ export default {
 .gallery {
   max-width: 600px;
   margin: -30px auto;
-  padding: 0 1em;
+  padding: 0 1em 30px;
 
   &__default-text {
     text-align: center;

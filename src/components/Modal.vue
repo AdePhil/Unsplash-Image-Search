@@ -45,7 +45,7 @@ export default {
 .modal {
   &__close {
     position: fixed;
-    top: 20px;
+    top: 18px;
     right: 15%;
     background: transparent;
     color: $lighter-gray;

@@ -1,6 +1,8 @@
 import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
+
+//Lambda functions to secure app id
 exports.handler = function(event, context, callback) {
   const { query } = JSON.parse(event.body);
   const { APP_ID } = process.env;
