@@ -1,5 +1,5 @@
 <template>
-  <transition name="modal">
+  <transition name="modal-fade">
     <div class="modal__mask">
       <div class="modal__wrapper">
         <div class="modal__container">
@@ -106,5 +106,15 @@ export default {
       }
     }
   }
+}
+// classes from vue
+.modal-fade-enter,
+.modal-fade-leave-active {
+  opacity: 0;
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.5s ease;
 }
 </style>

@@ -57,7 +57,10 @@
       </div>
     </div>
     <Modal
-      v-if="showModal && !!(modalPhoto && modalPhoto.urls.regular)"
+      v-if="
+        showModal &&
+          !!(modalPhoto && modalPhoto.urls && modalPhoto.urls.regular)
+      "
       @close="showModal = false"
     >
       <img
