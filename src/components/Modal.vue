@@ -48,7 +48,7 @@ export default {
     top: 20px;
     right: 15%;
     background: transparent;
-    color: #f5f5f5;
+    color: $lighter-gray;
     font-size: 25px;
     border: none;
     outline: none;
@@ -88,7 +88,7 @@ export default {
   }
 
   &__body {
-    background-color: #f5f5f5;
+    background-color: $lighter-gray;
     img {
       width: 100%;
       height: 400px;

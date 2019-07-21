@@ -125,6 +125,8 @@ export default {
       this.showHelperText = true;
       this.loading = true;
       this.previouslySearchedQuery = this.query;
+      //return is the query is empty
+      if (!this.query) return;
       axios
         .post(`/.netlify/functions/images`, { query: this.query })
         .then(response => {
@@ -145,16 +147,12 @@ export default {
 </script>
 
 <style lang="scss">
-// variables
-$blue: #253858;
-$light-blue: #6d7b91;
-
 .keyword {
   color: $light-blue;
 }
 
 .header {
-  background: #dde2e9;
+  background: $header-bg;
   height: 200px;
   display: flex;
   justify-content: center;
@@ -173,7 +171,7 @@ $light-blue: #6d7b91;
     border-radius: 5px;
     font-size: 20px;
     outline: none;
-    color: #253858;
+    color: $blue;
     &::placeholder {
       color: inherit;
     }
@@ -210,7 +208,7 @@ $light-blue: #6d7b91;
   }
 
   &__img {
-    background-color: #f5f5f5;
+    background-color: $lighter-gray;
     grid-row: span 3;
     position: relative;
     transition: transform 300ms ease;
@@ -230,16 +228,16 @@ $light-blue: #6d7b91;
         font-size: 12px;
         min-width: 100px;
         min-height: 10px;
-        background-color: #e6e6e6;
-        color: #e6e6e6;
+        background-color: $light-gray;
+        color: $light-gray;
       }
       p {
         margin-top: 2px;
         min-width: 50px;
-        background-color: #e6e6e6;
+        background-color: $light-gray;
         min-height: 10px;
         display: inline-block;
-        color: #e6e6e6;
+        color: $light-gray;
       }
       p.active,
       h3.active {
